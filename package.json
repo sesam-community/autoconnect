@@ -1,0 +1,15 @@
+{
+    "name": "autoconnect",
+    "private": false,
+    "version": "0.0.1",
+    "description": "",
+    "author": "Jonas Als Christensen || Daniel Johannessen",
+    "license": "MIT",
+    "scripts": {
+      "stop": "lsof -t -i tcp:5000 | xargs kill -9",
+      "deploy": "",
+      "install": "sudo pip3 install -r requirements.txt",
+      "swagger": "python3 backend/service.py"
+    }
+  }
+  
