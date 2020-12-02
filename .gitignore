@@ -1,2 +1,8 @@
 helpers.json
-.DS*
+.DS_Store
+node_modules
+/.vscode
+yarn*
+package-lock*
+frontend.yaml
+__pycache__*
