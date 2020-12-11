@@ -35,7 +35,8 @@ index_relations = None
 
 ## Logic for running program in dev
 try:
-    with open("helpers.json", "r") as stream:
+    with open("./backend/helpers.json", "r") as stream:
+        logger.info("Using env vars defined in helpers.json")
         env_vars = json.load(stream)
         os.environ['sesam_jwt'] = env_vars['sesam_jwt']
         os.environ['sesam_base_url'] = env_vars['sesam_base_url']

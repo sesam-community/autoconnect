@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+     autoconnect:
+      container_name: autoconnect
+      image: autoconnect
+      build: 
+        context: .
+        dockerfile: ./frontend/Dockerfile
+      volumes:
+      - '/app/node_modules'
+      - '/app/src'
+      ports:
+        - 8080:8080
+      working_dir: /app
+      command: "npm run serve"

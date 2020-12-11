@@ -8,7 +8,7 @@ const path = require('path')
 const app = express()
 
 // eslint-disable-next-line no-console
-console.log('Now running production server on localhost:8080 ...')
+//console.log('Now running production server on localhost:8080 ...')
 
 app.use('/dist', express.static(path.join(__dirname, 'public'))) // Used to upload everything in the 'public' folder.
 app.use(serveStatic('dist', {'index': ['index.html', 'index.htm']}))
