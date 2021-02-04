@@ -1,7 +1,7 @@
 # Autoconnect
 A microservice for making connecting [DATABASE,API,REST,GRAPH] generic
 
-## Currently supporting autoconnect to:
+## Currently autoconnect supports:
 Databases [MySQL, PostgreSQL, MsSQL]
 
 ## Prerequisites
@@ -25,6 +25,8 @@ Supports GET, POST
     docker-compose up
     ```
 
+    To gracefully stopping the containers running run *ctrl+c*
+    
 3. Open your browser and navigate to http://localhost/ and start autoconnecting to your database! 
 
 *Run program in development*
