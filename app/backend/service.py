@@ -40,15 +40,14 @@ try:
         env_vars = json.load(stream)
         os.environ['sesam_jwt'] = env_vars['sesam_jwt']
         os.environ['sesam_base_url'] = env_vars['sesam_base_url']
-        os.environ['backend_url'] = env_vars['backend_url']
 except OSError as e:
     logger.info("Using env vars defined in SESAM")
-
-required_env_vars = ['sesam_jwt', 'sesam_base_url', 'backend_url']
+##
+    
+required_env_vars = ['sesam_jwt', 'sesam_base_url']
 optional_env_vars = ["Denmark_is_here"]
 sesam_jwt = os.getenv('sesam_jwt')
 base_url = os.getenv('sesam_base_url')
-backend_url = os.getenv('backend_url')
 
 @app.route('/')
 def index():
@@ -156,7 +155,7 @@ def create_dataflow():
 
 
 ## Get initial scan of db, get relations and write to globals [fkey_relations, index_relations]
-@app.route('/scan_db', methods=['GET'])
+@app.route('/scan_db', methods=['GET', 'POST'])
 @cross_origin()
 def get_db_data():
     global connecting_params
@@ -164,16 +163,20 @@ def get_db_data():
     global index_relations
     fkey_query_relations = None
     index_query_relations = None
+    table_result = None
     tables = []
     pkeys = []
     option = connecting_params['option']
     connecting_params["dbase"] = connecting_params["dbase"].lower()
 
-    if option[0] == "Foreign Key references" or option == "Foreign Key references":
-        option = "Fkey"
-    if option[0] == "Index references" or option == "Index references":
-        option = "Index"
-    
+    try:
+        if option[0] == "Foreign Key references" or option == "Foreign Key references":
+            option = "Fkey"
+        if option[0] == "Index references" or option == "Index references":
+            option = "Index"
+    except:
+        tables = "Not working"
+        
     if connecting_params["dbase"] == "mysql":
         table_result, fkey_query_relations, index_query_relations = mysql_db(
             connecting_params, option)
@@ -190,13 +193,17 @@ def get_db_data():
     fkey_relations = fkey_query_relations
     index_relations = index_query_relations
 
-    index_value = 1
-    for table, pkey in table_result:
-        tables.append({"id": index_value, "name": table, "groupId": 1})
-        pkeys.append(pkey)
-        index_value = index_value + 1
+    if table_result == None:
+        tables = "Not working"
 
-    return {"result": tables, "base_url": f"{backend_url}"}
+    if tables != "Not working" and len(table_result) != 0:
+        index_value = 1
+        for table, pkey in table_result:
+            tables.append({"id": index_value, "name": table, "groupId": 1})
+            pkeys.append(pkey)
+            index_value = index_value + 1
+
+    return {"result": tables}
 
 
 ## General response...

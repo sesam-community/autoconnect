@@ -2,11 +2,11 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
-# install project dependencies
 RUN npm install
 COPY . .
+RUN npm run build
 
-# build app for production with minification
-#RUN npm run build
-
-EXPOSE 8080
+FROM nginx:latest as production-stage
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf

@@ -1,4 +1,4 @@
-import cx_Oracle
+#import cx_Oracle
 from queries.oracle import *
 
 

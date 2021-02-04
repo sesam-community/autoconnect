@@ -95,6 +95,9 @@
     <div v-if="isBufferActive" name="buffer" class="split right">
         <span v-html="bufferIcon()"></span>
     </div>
+    <div v-if="is404" class="center">
+        <span> {{rows}} </span>
+    </div>
     <div v-if="isGlobalBufferActive" class="center" id="Buffer">
       <span v-html="bufferIcon()"></span>
     </div>
@@ -120,8 +123,8 @@ export default {
       isSesamInt: false,
       select_all_string: "Select All",
       isInputComplete: true,
+      is404: false,
       rows: "{{tables}}",
-      backend_base_url: "{{backend_url}}",
       selected: "placeholder",
       db_options: ['MySQL', 'PostgreSQL', 'MsSQL'],
       scan_options: [
@@ -146,7 +149,8 @@ export default {
       //console.log(option)
       this.isBufferActive = true;
       this.isSesamInt = true;
-      await fetch("http://localhost:5000/connectors", {
+      // http://localhost/backend/ http://localhost:5000/ # For running locally.
+      await fetch("http://localhost/backend/connectors", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -194,17 +198,24 @@ export default {
           this.isScanResponse = true;
           this.isBufferActive = false;
           this.rows = data;
-          this.backend_base_url = data;
+        }
+        if (data['result'] == "Not working") {
+            // eslint-disable-next-line no-console
+            console.log(data)
+            this.rows = "Something didn't work correctly when connecting to your database. Refresh the page and start over."
+            this.is404 = true;
+            this.isScanResponse = false;
+            this.isInputComplete = false;
+            this.isBufferActive = false;
         }
       });
     },
     async createDataFlow() {
       let tables = this.selected_pipes;
-      let base_url = this.backend_base_url['base_url'];
       this.isScanResponse = false;
       this.isInputComplete = false;
       this.isGlobalBufferActive = true;
-      await fetch(`${base_url}/create_dataflow`, {
+      await fetch("http://localhost/backend/create_dataflow", {
         method: "POST",
         headers: {
           Accept: "application/json",

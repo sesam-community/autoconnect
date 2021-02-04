@@ -1,16 +1,46 @@
 version: '3.7'
 
 services:
-     autoconnect:
-      container_name: autoconnect
-      image: autoconnect
-      build: 
-        context: .
-        dockerfile: ./frontend/Dockerfile
+
+    # Proxies requests to internal services
+    reverse-proxy:
+      image: nginx:1.17.10
+      container_name: reverse_proxy_demo
+      depends_on:
+          - frontend
+          - backend
       volumes:
-      - '/app/node_modules'
-      - '/app/src'
+        - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
       ports:
-        - 8080:8080
+        - 80:80
+
+    frontend:
+      stdin_open: true
+      tty: true
+      image: jc89als/frontend_autoconnect
+      build: 
+        context: ./frontend/
+      depends_on:
+        - backend
+      volumes:
+        - ~/.composer-docker/cache:/root/.composer/cache:delegated
+        - ./:/usr/src/app:cached
+        - '/app/node_modules'
+        - '/app/src'
+      ports:
+        - 8080:80
       working_dir: /app
-      command: "npm run serve"
+
+    backend:
+      image: jc89als/backend_autoconnect
+      build: 
+        context: ./backend/
+      volumes:
+        - '/app'
+      environment:
+        - sesam_jwt=<sesam_jwt_token goes here>
+        - sesam_base_url=<sesam_base_url goes here>
+      ports:
+        - 5000:5000
+      working_dir: /app
+      command: "python3 service.py"
