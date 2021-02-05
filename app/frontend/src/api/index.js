@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const instance = axios.create ({
     //baseURL: 'http://localhost:5000/', // <- For developing locally.
-    baseURL: 'http://localhost/backend/',
+    baseURL: 'http://localhost/backend_autoconnect/',
     timeout: 50000
 })
 

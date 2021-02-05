@@ -7,21 +7,21 @@ services:
       image: nginx:1.17.10
       container_name: reverse_proxy_demo
       depends_on:
-          - frontend
-          - backend
+          - frontend_autoconnect
+          - backend_autoconnect
       volumes:
         - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
       ports:
         - 80:80
 
-    frontend:
+    frontend_autoconnect:
       stdin_open: true
       tty: true
       image: jc89als/frontend_autoconnect
       build: 
         context: ./frontend/
       depends_on:
-        - backend
+        - backend_autoconnect
       volumes:
         - ~/.composer-docker/cache:/root/.composer/cache:delegated
         - ./:/usr/src/app:cached
@@ -31,7 +31,7 @@ services:
         - 8080:80
       working_dir: /app
 
-    backend:
+    backend_autoconnect:
       image: jc89als/backend_autoconnect
       build: 
         context: ./backend/

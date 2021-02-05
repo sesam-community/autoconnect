@@ -149,8 +149,8 @@ export default {
       //console.log(option)
       this.isBufferActive = true;
       this.isSesamInt = true;
-      // http://localhost/backend/ http://localhost:5000/ # For running locally.
-      await fetch("http://localhost/backend/connectors", {
+      // http://localhost/backend_autoconnect/ http://localhost:5000/ # For running locally.
+      await fetch("http://localhost/backend_autoconnect/connectors", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -215,7 +215,7 @@ export default {
       this.isScanResponse = false;
       this.isInputComplete = false;
       this.isGlobalBufferActive = true;
-      await fetch("http://localhost/backend/create_dataflow", {
+      await fetch("http://localhost/backend_autoconnect/create_dataflow", {
         method: "POST",
         headers: {
           Accept: "application/json",
