@@ -104,7 +104,7 @@
     <div v-if="isSesamResponse" class="sesam" id="sesamResponse">
       <br />
       <br />
-      <h2>{{ result["sesam_result"] }}</h2>
+      <h3>{{ result["sesam_result"] }}</h3>
     </div>
   </body>
 </template>
