@@ -1,11 +1,11 @@
 # Autoconnect
-A microservice for making connecting [DATABASE,API,REST,GRAPH] generic
+A docker-compose microservice that automates the scanning of databases and its table relations.
 
 ## Currently autoconnect supports:
 Databases [MySQL, PostgreSQL, MsSQL]
 
 ## Prerequisites
-python3, Vue
+docker
 
 ## API Capabalities
 Supports GET, POST
@@ -15,6 +15,10 @@ Supports GET, POST
 *Run program using Docker-compose*
 
 1. Open the docker-compose.yaml file. Fill out the environment section in the backend service defined there. You need to fill in **sesam_jwt** and **sesam_base_url**
+    
+    - To get your **sesam_base_url**, go into your sesam node via: https://portal.sesam.io/dashboard. When in your node, navigate to the Subscription tab -> Network tab. In the network tab you'll see the "Default URL". That is the URL that should be pasted in **sesam_base_url**.
+
+    - To generate a SESAM JWT navigate to the Subscription tab -> JWT tab. In the JWT tab do as instructed to generate a JWT. Paste the JWT in **sesam_jwt**.
 
 2. Navigate to /app in your terminal. Then run the following:
     ```
@@ -29,7 +33,7 @@ Supports GET, POST
     
 3. Open your browser and navigate to http://localhost/ and start autoconnecting to your database! 
 
-*Run program in development*
+*Run program for development purposes*
 
 This repo uses the file ```package.json``` and [yarn](https://yarnpkg.com/lang/en/) to run the required commands.
 
