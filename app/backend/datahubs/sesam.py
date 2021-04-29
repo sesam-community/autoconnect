@@ -65,14 +65,14 @@ def create_pipe_with_fkey_ni(connection_params, list_with_table_relations,
             tmp_dict[table[0]].append([
                 "make-ni",
                     f"{connection_params['dbase'].replace('_', '-')}-{table[2].replace('_', '-')}",
-                    f"_S.{table[1]}"
+                    f"{table[1]}"
             ])
         else:
             tmp_dict = {
                 table[0]: [[
                 "make-ni",
                     f"{connection_params['dbase'].replace('_', '-')}-{table[2].replace('_', '-')}",
-                    f"_S.{table[1]}"
+                    f"{table[1]}"
             ]]
             }
 
@@ -140,14 +140,14 @@ def create_pipe_with_idx_ni(connection_params, list_with_table_relations,
             tmp_dict[pipe_id].append([
                     "make-ni",
                     f"{connection_params['dbase']}-{pipe_idx_table.replace('_', '-')}",
-                    f"_S.{pipe_id_column}"
+                    f"{pipe_id_column}"
             ])
         else:
             tmp_dict = {
                 pipe_id : [[
                     "make-ni",
                     f"{connection_params['dbase']}-{pipe_idx_table.replace('_', '-')}",
-                    f"_S.{pipe_id_column}"
+                    f"{pipe_id_column}"
                 ]]
             }
 
